@@ -1,7 +1,13 @@
-import React from 'react';
+import React from "react";
 
 function Cart({ cart, updateQuantity, removeFromCart }) {
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const handlePedido = () => {
+    Swal.fire("Compra Realizada con Exito!");
+    setTimeout(() => {
+      window.location.reload();
+    }, 900);
+  };
 
   return (
     <div>
@@ -11,44 +17,93 @@ function Cart({ cart, updateQuantity, removeFromCart }) {
       ) : (
         <ul>
           {cart.map((item) => (
-            <li key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <li
+              key={item.id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
               <img
                 src={item.image}
                 alt={item.name}
-                style={{ width: '50px', height: '50px', marginRight: '10px', borderRadius: '4px' }}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  marginRight: "10px",
+                  borderRadius: "4px",
+                }}
               />
               <div style={{ flex: 1 }}>
-                <span>{item.name} - ${item.price}</span>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
-                  <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                <span>
+                  {item.name} - ${item.price}
+                </span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "5px",
+                  }}
+                >
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  >
+                    -
+                  </button>
                   <input
                     type="number"
                     value={item.quantity}
                     onChange={(e) =>
-                      updateQuantity(item.id, Math.max(0, parseInt(e.target.value, 10) || 0))
+                      updateQuantity(
+                        item.id,
+                        Math.max(0, parseInt(e.target.value, 10) || 0)
+                      )
                     }
-                    style={{ width: '50px', textAlign: 'center', margin: '0 10px' }}
+                    style={{
+                      width: "50px",
+                      textAlign: "center",
+                      margin: "0 10px",
+                    }}
                     min="0"
                   />
-                  <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
               <button
                 onClick={() => removeFromCart(item.id)}
                 style={{
-                  marginLeft: '10px',
-                  backgroundColor: 'red',
-                  color: 'white',
-                  border: 'none',
-                  padding: '5px 10px',
-                  cursor: 'pointer',
-                  borderRadius: '4px'
+                  marginLeft: "10px",
+                  backgroundColor: "red",
+                  color: "white",
+                  border: "none",
+                  padding: "5px 10px",
+                  cursor: "pointer",
+                  borderRadius: "4px",
                 }}
               >
                 Borrar
               </button>
             </li>
           ))}
+          <button
+            onClick={handlePedido}
+            style={{
+              marginLeft: "10px",
+              backgroundColor: "green",
+              color: "white",
+              border: "none",
+              padding: "5px 10px",
+              cursor: "pointer",
+              borderRadius: "4px",
+            }}
+          >
+            Pagar
+          </button>
         </ul>
       )}
       <h3>Total: ${total}</h3>
